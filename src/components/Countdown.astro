@@ -1,0 +1,118 @@
+---
+import { wedding } from '../data/wedding.ts';
+import Divider from './Divider.astro';
+---
+
+<section class="section" id="fecha">
+  <p class="section-eyebrow">Guarda esta fecha</p>
+  <h2 class="section-title">Nos vamos a casar</h2>
+  <Divider />
+
+  <p class="cd-quote">
+    Bendecidos por la gracia de Dios,<br />
+    nos uniremos en matrimonio el
+  </p>
+
+  <p class="cd-date">{wedding.date.display}</p>
+  <p class="cd-weekday">{wedding.date.weekday}</p>
+
+  <div class="cd-grid" data-countdown data-target={wedding.date.iso}>
+    <div class="cd-item"><span data-cd="days">--</span><small>Días</small></div>
+    <div class="cd-item"><span data-cd="hours">--</span><small>Horas</small></div>
+    <div class="cd-item"><span data-cd="minutes">--</span><small>Min</small></div>
+    <div class="cd-item"><span data-cd="seconds">--</span><small>Seg</small></div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector('[data-countdown]') as HTMLElement | null;
+  if (root) {
+    const target = new Date(root.dataset.target || '').getTime();
+    const days = root.querySelector('[data-cd="days"]') as HTMLElement;
+    const hours = root.querySelector('[data-cd="hours"]') as HTMLElement;
+    const minutes = root.querySelector('[data-cd="minutes"]') as HTMLElement;
+    const seconds = root.querySelector('[data-cd="seconds"]') as HTMLElement;
+
+    const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
+
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        days.textContent = '00';
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
+        return;
+      }
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      days.textContent = pad(d);
+      hours.textContent = pad(h);
+      minutes.textContent = pad(m);
+      seconds.textContent = pad(s);
+    };
+
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>
+
+<style>
+  .cd-quote {
+    color: var(--color-text-soft);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+
+  .cd-date {
+    font-family: var(--font-display);
+    color: var(--color-primary-dark);
+    font-size: 1.4rem;
+    margin: 0.25rem 0;
+    letter-spacing: 2px;
+  }
+
+  .cd-weekday {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .cd-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .cd-item {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 0.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cd-item span {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 6vw, 2rem);
+    color: var(--color-primary-dark);
+    font-weight: 500;
+    display: block;
+    line-height: 1;
+  }
+
+  .cd-item small {
+    display: block;
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--color-muted);
+  }
+</style>

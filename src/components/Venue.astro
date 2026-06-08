@@ -1,0 +1,223 @@
+---
+import { wedding } from '../data/wedding.ts';
+import Divider from './Divider.astro';
+---
+
+<section class="section" id="ceremonia">
+  <p class="section-eyebrow">Detalles del evento</p>
+  <h2 class="section-title">Ceremonia y Recepción</h2>
+  <Divider />
+
+  <div class="venue-grid">
+    <article class="venue-card" id="ceremonia-detalle">
+      <div class="venue-card-bg" style="background-image: url('/images/ceremonia.webp')"></div>
+      <div class="venue-card-overlay"></div>
+      <div class="venue-card-content">
+        <div class="venue-card-content-header">
+          <div class="venue-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="9" cy="15" r="5"/>
+              <circle cx="16" cy="15" r="5"/>
+              <path d="M7 4l2 4M17 4l-2 4M12 2l1 6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>{wedding.ceremony.title}</h3>
+        </div>
+        <p class="venue-time">{wedding.ceremony.time}</p>
+        <div>
+          <p class="venue-place">{wedding.ceremony.place}</p>
+          <p class="venue-address">{wedding.ceremony.address}</p>
+        </div>
+        <a class="btn btn-outline venue-btn" href={wedding.ceremony.mapUrl} target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </article>
+
+    <article class="venue-card" id="recepcion">
+      <div class="venue-card-bg" style="background-image: url('/images/recepcion.webp')"></div>
+      <div class="venue-card-overlay"></div>
+      <div class="venue-card-content">
+        <div class="venue-card-content-header">
+          <div class="venue-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 3l2 8c0 2 1.5 3.5 3 3.8V20H7v2h10v-2h-3v-5.2c1.5-.3 3-1.8 3-3.8l2-8H5zm2.5 2h9l-.7 3h-7.6L7.5 5z"/>
+            </svg>
+          </div>
+          <h3>{wedding.reception.title}</h3>
+        </div>
+        <p class="venue-time">{wedding.reception.time}</p>
+        <div>
+          <p class="venue-place">{wedding.reception.place}</p>
+          <p class="venue-address">{wedding.reception.address}</p>
+        </div>
+        <a class="btn btn-outline venue-btn" href={wedding.reception.mapUrl} target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="venue-map" aria-label="Mapa de las ubicaciones">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.6615217776452!2d-78.50079963982147!3d-7.165071174215914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91b25b1fa37ed1f1%3A0x7d86c9816daaba02!2sAv.%20Atahualpa%20819%2C%20Cajamarca%2006002!5e0!3m2!1ses!2spe!4v1780796390371!5m2!1ses!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
+<style>
+  .venue-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  .venue-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .venue-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .venue-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .venue-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(43, 26, 23, 0.45);
+    z-index: 1;
+  }
+
+  .venue-card-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1.25rem 1.5rem;
+    color: #fff;
+  }
+
+  .venue-card-content-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .venue-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffe6c2;
+    backdrop-filter: blur(4px);
+  }
+
+  .venue-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .venue-card h3 {
+    font-family: var(--font-script);
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .venue-time {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .venue-place {
+    color: #fff;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .venue-address {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+  }
+
+  .venue-btn {
+    border-color: rgba(255, 255, 255, 0.85);
+    color: #fff;
+  }
+
+  .venue-btn:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .venue-map {
+    position: relative;
+    max-width: 720px;
+    height: 350px;
+    margin-inline: auto;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface-2);
+    padding: 6px;
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-md);
+
+  }
+
+  .venue-map::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  }
+
+
+  .venue-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: calc(var(--radius-md) - 6px);
+    display: block;
+    filter: saturate(0.92) contrast(0.96);
+
+  }
+
+  @media (min-width: 640px) {
+    .venue-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      max-width: 720px;
+    }
+  }
+</style>

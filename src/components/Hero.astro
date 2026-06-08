@@ -1,0 +1,222 @@
+---
+import { wedding } from '../data/wedding.ts';
+
+// @ts-ignore: no type declarations for the side-effect font import
+import '@fontsource/allura';
+---
+
+<header class="hero" id="inicio">
+  <div class="hero-layer">
+    <div class="hero-bg" style={`background-image:url(${wedding.hero.image})`}></div>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <p class="hero-invite">Nos casamos</p>
+    <div class="hero-flourish" aria-hidden="true">
+      <span></span>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3 3 4 6 5-3 1-5 2-6 5-1-3-3-4-6-5 3-1 5-2 6-5z"/></svg>
+      <span></span>
+    </div>
+    <h1 class="hero-names">
+      <span class="hero-name">{wedding.couple.groom.name.split(' ')[0]}</span>
+      <span class="hero-amp">&amp;</span>
+      <span class="hero-name">{wedding.couple.bride.name.split(' ')[0]}</span>
+    </h1>
+    <div class="hero-line" aria-hidden="true"></div>
+    <p class="hero-date">{wedding.date.display}</p>
+    <p class="hero-quote">{wedding.hero.quote}</p>
+  </div>
+
+  <a href="#novios" class="hero-scroll" aria-label="Bajar a la siguiente sección" data-smooth>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 4v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</header>
+
+<script>
+  function smoothScrollTo(target: string, duration = 700) {
+    const el = document.querySelector(target);
+    if (!el) return;
+    const start = window.scrollY;
+    const end = el.getBoundingClientRect().top + start;
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+    const startTime = performance.now();
+    function step(now: number) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start + (end - start) * easeOutQuart(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = (e.target as Element).closest('[data-smooth]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href?.startsWith('#')) return;
+    e.preventDefault();
+    smoothScrollTo(href);
+  });
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    transform: scale(1.5);
+    animation: heroZoom 14s ease-out forwards;
+  }
+
+  .hero-layer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(43, 26, 23, 0.45) 0%, rgba(43, 26, 23, 0.15) 35%, rgba(155, 31, 51, 0.55) 75%, rgba(255, 248, 243, 0.7) 100%);
+    z-index: -1;
+  }
+
+  .hero-content {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    max-width: 760px;
+    animation: heroFade 1.2s ease-out 0.2s both;
+  }
+
+  .hero-invite {
+    font-family: var(--font-script);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #ffe6c2;
+    margin: 0 0 0.5rem;
+  }
+
+  .hero-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: rgba(255, 230, 194, 0.9);
+    margin: 0.5rem auto 1.25rem;
+    max-width: 360px;
+  }
+
+  .hero-flourish span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 230, 194, 0.65), transparent);
+  }
+
+  .hero-flourish svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-names {
+    font-family: Allura, cursive;
+    font-weight: 500;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1.05;
+    margin: 0.25rem 0;
+    color: #fff;
+    text-shadow: 0 6px 28px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: clamp(0.6rem, 2vw, 1.2rem);
+    flex-wrap: wrap;
+  }
+
+  .hero-amp {
+    color: var(--color-accent);
+    font-style: italic;
+    font-family: var(--font-script);
+    font-size: 0.9em;
+    line-height: 1;
+  }
+
+  .hero-line {
+    width: clamp(80px, 12vw, 140px);
+    height: 1px;
+    margin: 1.25rem auto;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  }
+
+  .hero-date {
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: #fff;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .hero-quote {
+    font-family: var(--font-script);
+    color: #ffd9c0;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin: 0;
+  }
+
+.hero-scroll {
+    position: absolute;
+    bottom: 1.5rem;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    animation: scrollBounce 2.4s ease-in-out infinite;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .hero-scroll:hover {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .hero-scroll svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @keyframes heroZoom {
+    to { transform: scale(1); }
+  }
+
+  @keyframes heroFade {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.9; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+</style>

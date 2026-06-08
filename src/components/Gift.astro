@@ -1,0 +1,227 @@
+---
+import { wedding } from '../data/wedding.ts';
+import Divider from './Divider.astro';
+---
+
+<section class="section" id="regalo">
+  <p class="section-eyebrow">Tu presencia es nuestro regalo</p>
+  <h2 class="section-title">Send a Gift</h2>
+  <Divider />
+
+  <p class="gift-intro">
+    Pero si deseas tener un detalle con nosotros, puedes hacerlo a través de:
+  </p>
+
+  <div class="gift-tabs" role="tablist">
+    <button type="button" class="gift-tab is-active" data-tab="bcp" role="tab" aria-selected="true">BCP</button>
+    <button type="button" class="gift-tab" data-tab="yape" role="tab" aria-selected="false">Yape</button>
+  </div>
+
+  <div class="gift-panels">
+    <article class="gift-panel is-active" data-panel="bcp">
+      <div class="gift-row">
+        <span>Banco</span><strong>{wedding.gift.bcp.bank}</strong>
+      </div>
+      <div class="gift-row">
+        <span>Titular</span><strong>{wedding.gift.bcp.holder}</strong>
+      </div>
+      <div class="gift-row gift-copy">
+        <div>
+          <span>Cuenta</span>
+          <strong>{wedding.gift.bcp.account}</strong>
+        </div>
+        <button type="button" class="gift-copy-btn" data-copy={wedding.gift.bcp.account} aria-label="Copiar número de cuenta">
+          Copiar
+        </button>
+      </div>
+      <div class="gift-row gift-copy">
+        <div>
+          <span>CCI</span>
+          <strong>{wedding.gift.bcp.cci}</strong>
+        </div>
+        <button type="button" class="gift-copy-btn" data-copy={wedding.gift.bcp.cci} aria-label="Copiar CCI">
+          Copiar
+        </button>
+      </div>
+    </article>
+
+    <article class="gift-panel" data-panel="yape">
+      <div class="gift-yape">
+        <img src={wedding.gift.yape.qr} alt="Código QR de Yape" loading="lazy" />
+      </div>
+      <div class="gift-row">
+        <span>Número</span><strong>{wedding.gift.yape.number}</strong>
+      </div>
+      <div class="gift-row">
+        <span>Titular</span><strong>{wedding.gift.yape.holder}</strong>
+      </div>
+      <button type="button" class="btn gift-copy-pill" data-copy={wedding.gift.yape.number}>
+        Copiar número
+      </button>
+    </article>
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.gift-tab');
+  const panels = document.querySelectorAll<HTMLElement>('.gift-panel');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach((t) => {
+        const active = t === tab;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach((p) => {
+        p.classList.toggle('is-active', p.dataset.panel === target);
+      });
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy || '';
+      try {
+        await navigator.clipboard.writeText(text);
+        const prev = btn.textContent;
+        btn.textContent = '¡Copiado!';
+        btn.classList.add('is-copied');
+        setTimeout(() => {
+          btn.textContent = prev;
+          btn.classList.remove('is-copied');
+        }, 1600);
+      } catch {}
+    });
+  });
+</script>
+
+<style>
+  .gift-intro {
+    max-width: 320px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .gift-tabs {
+    display: inline-flex;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-pill);
+    padding: 4px;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--color-line);
+  }
+
+  .gift-tab {
+    padding: 0.5rem 1.4rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    color: var(--color-text-soft);
+    font-size: 0.88rem;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .gift-tab.is-active {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gift-panel {
+    display: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    text-align: left;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .gift-panel.is-active {
+    display: block;
+    animation: giftFade 0.3s ease;
+  }
+
+  .gift-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed var(--color-line);
+    font-size: 0.92rem;
+  }
+
+  .gift-row:last-of-type {
+    border-bottom: none;
+  }
+
+  .gift-row span {
+    color: var(--color-muted);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+  }
+
+  .gift-row strong {
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .gift-copy {
+    flex-wrap: wrap;
+  }
+
+  .gift-copy > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .gift-copy-btn {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .gift-copy-btn:hover,
+  .gift-copy-btn.is-copied {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .gift-copy-pill {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .gift-yape {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1rem;
+    border: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    padding: 6px;
+    background: #fff;
+  }
+
+  .gift-yape img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @keyframes giftFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

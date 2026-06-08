@@ -1,0 +1,137 @@
+---
+import { wedding } from '../data/wedding.ts';
+---
+
+<footer class="footer">
+  <svg
+    class="footer-wave"
+    viewBox="0 0 1440 60"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="footerWaveGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+        <stop offset="55%" stop-color="#ffffff" stop-opacity="0.55" />
+        <stop offset="100%" stop-color="#fdf1ea" stop-opacity="1" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M0,0 C180,46 360,46 540,0 C720,46 900,46 1080,0 C1260,46 1350,46 1440,0 L1440,60 L0,60 Z"
+      fill="url(#footerWaveGrad)"
+    />
+  </svg>
+
+  <div class="footer-inner">
+    <div class="footer-divider" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2c1 3 3 4 6 5-3 1-5 2-6 5-1-3-3-4-6-5 3-1 5-2 6-5z" />
+      </svg>
+    </div>
+    <h3 class="footer-names">
+      {wedding.couple.groom.name.split(' ')[0]} &amp; {wedding.couple.bride.name.split(' ')[0]}
+    </h3>
+    <p class="footer-date">{wedding.date.display}</p>
+    <p class="footer-thanks">Gracias por compartir este momento con nosotros</p>
+
+    <div class="footer-credits" aria-label="Créditos">
+      <span class="footer-credits-rule" aria-hidden="true"></span>
+      <p class="footer-credits-text">
+        © 2026 · Hecho con <span class="footer-heart" aria-hidden="true">♥</span> por
+        <strong class="footer-brand">Jsaxdev</strong>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    text-align: center;
+    background: linear-gradient(180deg, var(--color-surface-2), var(--color-primary-soft));
+    color: var(--color-primary-dark);
+  }
+
+  .footer-wave {
+    display: block;
+    width: 100%;
+    height: 60px;
+    margin-bottom: -1px;
+  }
+
+  .footer-inner {
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+
+  .footer-divider {
+    display: grid;
+    place-items: center;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-divider svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .footer-names {
+    font-family: var(--font-script);
+    font-size: 2.2rem;
+    margin: 0;
+    color: var(--color-primary);
+    font-weight: 400;
+  }
+
+  .footer-date {
+    margin: 0.25rem 0 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    color: var(--color-accent);
+  }
+
+  .footer-thanks {
+    color: var(--color-text-soft);
+    font-style: italic;
+    margin: 0 0 1.75rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-credits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .footer-credits-rule {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-primary-soft), transparent);
+  }
+
+  .footer-credits-text {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    color: var(--color-text-soft);
+    text-transform: uppercase;
+  }
+
+  .footer-heart {
+    color: var(--color-primary);
+    display: inline-block;
+    transform: translateY(-1px);
+    margin: 0 0.15rem;
+  }
+
+  .footer-brand {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-left: 0.35rem;
+  }
+</style>
