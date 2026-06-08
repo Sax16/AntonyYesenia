@@ -7,7 +7,7 @@ export const wedding = {
         'Recuerdo el día que te vi como si fuera ayer. Algo en tu sonrisa me hizo entender que la vida me estaba regalando algo invaluable. Con el tiempo descubrí que no solo eras hermosa por fuera, sino que tenías un corazón enorme, lleno de nobleza y de bondad. Hoy puedo decir con certeza que eres la persona con la que siempre soñé compartir cada atardecer, cada risa y cada desafío.',
     },
     bride: {
-      name: 'Yesenia López',
+      name: 'Yesenia Rojas',
       photo: '/images/yesenia.webp',
       story:
         'Llegaste a mi vida en el momento exacto en que menos lo esperaba, y desde entonces nada volvió a ser igual. Tu forma de mirar, tu calma y tu risa sincera me fueron conquistando poco a poco, hasta entender que en ti había encontrado a mi mejor amigo, mi compañero y el amor de mi vida. Gracias por elegirme cada día y por hacerme creer que los sueños, cuando se desean de verdad, sí se cumplen.',
@@ -25,8 +25,8 @@ export const wedding = {
   },
   ceremony: {
     title: 'Ceremonia',
-    place: 'Parroquia San José',
-    address: 'Av. Principal 123, Lima',
+    place: 'Iglesia MMM Cajamarca',
+    address: 'Jr. Atahualpa 819',
     time: '10:00 am',
     mapUrl: 'https://maps.app.goo.gl/sXcQchRBxbJbecoK6',
     mapEmbed:
@@ -34,8 +34,8 @@ export const wedding = {
   },
   reception: {
     title: 'Recepción',
-    place: 'Salón Casa Hacienda',
-    address: 'Calle de los Jardines 456, Lima',
+    place: 'Eventos Lumaz',
+    address: 'Av. Hoyo Rubio km 3.5',
     time: '1:00 pm',
     mapUrl: 'https://maps.app.goo.gl/27SW2NnCZ8FgeCvb8',
     mapEmbed:
@@ -78,7 +78,7 @@ export const wedding = {
     },
     yape: {
       number: '+51 999 888 777',
-      holder: 'Yesenia López',
+      holder: 'Yesenia Rojas',
       qr: '/images/yape-qr.svg',
     },
   },
