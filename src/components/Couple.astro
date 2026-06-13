@@ -1,6 +1,11 @@
 ---
 import { wedding } from '../data/wedding.ts';
 import Divider from './Divider.astro';
+
+const leafPaths = {
+  tl: '<path d="M32 4c-1 9-6 15-14 19-1-1-2-2-2-4C17 11 23 5 32 4z" fill="currentColor"/><path d="M18 23c2-4 6-9 14-19" stroke="currentColor" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>',
+  br: '<path d="M8 36c1-9 6-15 14-19 1 1 2 2 2 4-1 8-7 14-16 15z" fill="currentColor"/><path d="M22 17c-2 4-6 9-14 19" stroke="currentColor" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>',
+};
 ---
 
 <section class="section" id="novios" style="box-shadow: 0 -80px 120px -80px rgba(155, 31, 51, 0.18); margin-top: -2px;">
@@ -9,35 +14,51 @@ import Divider from './Divider.astro';
   <Divider />
 
   <div class="couple-grid">
-    <article class="couple-card">
-      <div class="couple-photo">
+    <article class="couple-person">
+      <div class="couple-portrait">
+        <span class="couple-portrait-ring" aria-hidden="true"></span>
         <img src={wedding.couple.groom.photo} alt={wedding.couple.groom.name} loading="lazy" />
+        <svg class="couple-leaf couple-leaf--tl" viewBox="0 0 40 40" aria-hidden="true" set:html={leafPaths.tl}></svg>
+        <svg class="couple-leaf couple-leaf--br" viewBox="0 0 40 40" aria-hidden="true" set:html={leafPaths.br}></svg>
       </div>
       <h3 class="couple-name">{wedding.couple.groom.name}</h3>
-      <p class="couple-role">El Novio</p>
-      <p class="couple-parents">
-        Hijo de<br />
-        {wedding.parents.groom.join(' & ')}
-      </p>
+      <p class="couple-role">Novio</p>
+      <div class="couple-flourish" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2c1 3 3 4 6 5-3 1-5 2-6 5-1-3-3-4-6-5 3-1 5-2 6-5z" />
+        </svg>
+        <span></span>
+      </div>
     </article>
 
-    <div class="couple-amp" aria-hidden="true">&amp;</div>
+    <div class="couple-amp" aria-hidden="true">
+      <span class="couple-amp-line couple-amp-line--top"></span>
+      <span class="couple-amp-glyph">&amp;</span>
+      <span class="couple-amp-line couple-amp-line--bottom"></span>
+    </div>
 
-    <article class="couple-card">
-      <div class="couple-photo">
+    <article class="couple-person">
+      <div class="couple-portrait">
+        <span class="couple-portrait-ring" aria-hidden="true"></span>
         <img src={wedding.couple.bride.photo} alt={wedding.couple.bride.name} loading="lazy" />
+        <svg class="couple-leaf couple-leaf--tr" viewBox="0 0 40 40" aria-hidden="true" set:html={leafPaths.br}></svg>
+        <svg class="couple-leaf couple-leaf--bl" viewBox="0 0 40 40" aria-hidden="true" set:html={leafPaths.tl}></svg>
       </div>
       <h3 class="couple-name">{wedding.couple.bride.name}</h3>
-      <p class="couple-role">La Novia</p>
-      <p class="couple-parents">
-        Hija de<br />
-        {wedding.parents.bride.join(' & ')}
-      </p>
+      <p class="couple-role">Novia</p>
+      <div class="couple-flourish" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2c1 3 3 4 6 5-3 1-5 2-6 5-1-3-3-4-6-5 3-1 5-2 6-5z" />
+        </svg>
+        <span></span>
+      </div>
     </article>
   </div>
 
   <p class="couple-quote">
-    "Hoy unimos nuestras vidas y queremos compartir contigo este momento tan especial."
+    Hay momentos en la vida que son especiales por si solos, pero compartirlos con las personas que quieres, los convierte en momentos inolvidables.
   </p>
 </section>
 
@@ -45,45 +66,70 @@ import Divider from './Divider.astro';
   .couple-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
-    margin-top: 1rem;
+    justify-items: center;
+    margin-top: 1.5rem;
   }
 
-  .couple-card {
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    padding: 1.25rem 1rem 1.5rem;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-line);
-    transition: transform 0.25s ease;
+  .couple-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
   }
 
-  .couple-card:hover {
-    transform: translateY(-3px);
-  }
-
-  .couple-photo {
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 0.75rem;
+  .couple-portrait {
+    position: relative;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid var(--color-primary-soft);
     background: linear-gradient(135deg, var(--color-primary-soft), var(--color-accent-soft));
+    padding: 5px;
+    box-shadow:
+      0 0 0 1px rgba(200, 50, 74, 0.08),
+      0 12px 32px -16px rgba(155, 31, 51, 0.4);
   }
 
-  .couple-photo img {
+  .couple-portrait-ring {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px dashed var(--color-primary-soft);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .couple-portrait img {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 1;
   }
+
+  .couple-leaf {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    color: var(--color-leaf);
+    z-index: 2;
+    filter: drop-shadow(0 2px 3px rgba(106, 138, 90, 0.25));
+  }
+
+  .couple-leaf--tl { top: -8px; left: -8px; transform: rotate(-15deg); }
+  .couple-leaf--tr { top: -8px; right: -8px; transform: rotate(15deg) scaleX(-1); }
+  .couple-leaf--bl { bottom: -8px; left: -8px; transform: rotate(-15deg) scaleY(-1); }
+  .couple-leaf--br { bottom: -8px; right: -8px; transform: rotate(15deg); }
 
   .couple-name {
     font-family: var(--font-script);
     color: var(--color-primary);
-    font-size: 1.7rem;
-    margin: 0;
+    font-size: 1.9rem;
+    margin: 1.1rem 0 0.35rem;
   }
 
   .couple-role {
@@ -91,40 +137,97 @@ import Divider from './Divider.astro';
     letter-spacing: 3px;
     color: var(--color-accent);
     font-size: 0.72rem;
-    margin: 0.3rem 0 0.75rem;
+    margin: 0;
   }
 
-  .couple-parents {
-    color: var(--color-text-soft);
-    font-size: 0.88rem;
-    margin: 0;
-    line-height: 1.5;
+  .couple-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+    color: var(--color-primary);
+    max-width: 180px;
+    width: 100%;
+  }
+
+  .couple-flourish span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-primary-soft), transparent);
+  }
+
+  .couple-flourish svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.75;
+    flex-shrink: 0;
   }
 
   .couple-amp {
-    font-family: var(--font-script);
-    font-size: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
     color: var(--color-primary);
+  }
+
+  .couple-amp-glyph {
+    font-family: var(--font-script);
+    font-size: 3.2rem;
     line-height: 1;
+  }
+
+  .couple-amp-line {
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(180deg, transparent, var(--color-primary-soft), transparent);
   }
 
   .couple-quote {
     font-family: var(--font-display);
     font-style: italic;
     color: var(--color-text-soft);
-    margin-top: 2rem;
+    margin: 2.5rem auto 0;
     padding: 0 1rem;
+    max-width: 560px;
+    text-align: center;
+    line-height: 1.6;
   }
 
   @media (min-width: 640px) {
     .couple-grid {
       grid-template-columns: 1fr auto 1fr;
-      gap: 1.25rem;
-      justify-items: center;
+      gap: 1.25rem 2.5rem;
     }
 
-    .couple-card {
-      min-width: 80%;
+    .couple-amp-line--top,
+    .couple-amp-line--bottom {
+      display: none;
+    }
+
+    .couple-amp {
+      position: relative;
+    }
+
+    .couple-amp::before,
+    .couple-amp::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-primary-soft), transparent);
+    }
+
+    .couple-amp::before {
+      right: 100%;
+      margin-right: 0.5rem;
+    }
+
+    .couple-amp::after {
+      left: 100%;
+      margin-left: 0.5rem;
     }
   }
 </style>
