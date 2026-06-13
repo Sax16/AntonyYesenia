@@ -24,42 +24,43 @@ import '@fontsource/allura';
       <span class="hero-name">{wedding.couple.bride.name.split(' ')[0]}</span>
     </h1>
     <div class="hero-line" aria-hidden="true"></div>
-    <p class="hero-date">{wedding.date.display}</p>
     <p class="hero-quote">{wedding.hero.quote}</p>
   </div>
 
-  <a href="#novios" class="hero-scroll" aria-label="Bajar a la siguiente sección" data-smooth>
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 4v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </a>
+  <button
+    type="button"
+    class="hero-play"
+    data-music-button
+    aria-label="Reproducir música"
+    aria-pressed="false"
+  >
+    <span class="hero-play-pulse" aria-hidden="true"></span>
+    <span class="hero-play-disc" aria-hidden="true">
+      <svg class="hero-play-icon hero-play-icon--play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7L8 5z"/>
+      </svg>
+      <svg class="hero-play-icon hero-play-icon--pause" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+      </svg>
+    </span>
+    <span class="hero-play-label">Nuestra canción favorita</span>
+  </button>
 </header>
 
 <script>
-  function smoothScrollTo(target: string, duration = 700) {
-    const el = document.querySelector(target);
-    if (!el) return;
-    const start = window.scrollY;
-    const end = el.getBoundingClientRect().top + start;
-    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
-    const startTime = performance.now();
-    function step(now: number) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, start + (end - start) * easeOutQuart(progress));
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
+  import { music } from '../lib/music';
 
-  document.addEventListener('click', (e) => {
-    const link = (e.target as Element).closest('[data-smooth]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href?.startsWith('#')) return;
-    e.preventDefault();
-    smoothScrollTo(href);
-  });
+  const playButton = document.querySelector<HTMLButtonElement>('[data-music-button]');
+  if (playButton) {
+    playButton.addEventListener('click', () => music.toggle());
+    music.subscribe((playing) => {
+      playButton.setAttribute('aria-pressed', String(playing));
+      playButton.setAttribute(
+        'aria-label',
+        playing ? 'Pausar música' : 'Reproducir música'
+      );
+    });
+  }
 </script>
 
 <style>
@@ -79,7 +80,7 @@ import '@fontsource/allura';
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     z-index: -2;
     transform: scale(1.5);
     animation: heroZoom 14s ease-out forwards;
@@ -88,29 +89,42 @@ import '@fontsource/allura';
   .hero-layer {
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
   }
 
   .hero-overlay {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(43, 26, 23, 0.45) 0%, rgba(43, 26, 23, 0.15) 35%, rgba(155, 31, 51, 0.55) 75%, rgba(255, 248, 243, 0.7) 100%);
+      linear-gradient(180deg,
+        rgba(43, 26, 23, 0.18) 0%,
+        rgba(43, 26, 23, 0.05) 28%,
+        rgba(43, 26, 23, 0.08) 50%,
+        rgba(43, 26, 23, 0.4) 72%,
+        rgba(43, 26, 23, 0.65) 88%,
+        rgba(43, 26, 23, 0.82) 100%);
     z-index: -1;
   }
 
   .hero-content {
     text-align: center;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.5rem 8.5rem;
     max-width: 760px;
+    align-self: end;
     animation: heroFade 1.2s ease-out 0.2s both;
+  }
+
+  @media (min-width: 720px) {
+    .hero-content {
+      padding: 1.5rem 1.5rem 6.5rem;
+    }
   }
 
   .hero-invite {
     font-family: var(--font-script);
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
     color: #ffe6c2;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.4rem;
   }
 
   .hero-flourish {
@@ -119,7 +133,7 @@ import '@fontsource/allura';
     justify-content: center;
     gap: 0.75rem;
     color: rgba(255, 230, 194, 0.9);
-    margin: 0.5rem auto 1.25rem;
+    margin: 0.35rem auto 0.85rem;
     max-width: 360px;
   }
 
@@ -130,18 +144,18 @@ import '@fontsource/allura';
   }
 
   .hero-flourish svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .hero-names {
     font-family: Allura, cursive;
     font-weight: 500;
-    font-size: clamp(3rem, 9vw, 6rem);
+    font-size: clamp(2.4rem, 7vw, 4.5rem);
     line-height: 1.05;
-    margin: 0.25rem 0;
+    margin: 0.15rem 0;
     color: #fff;
-    text-shadow: 0 6px 28px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 6px 28px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: baseline;
     justify-content: center;
@@ -158,53 +172,100 @@ import '@fontsource/allura';
   }
 
   .hero-line {
-    width: clamp(80px, 12vw, 140px);
+    width: clamp(70px, 10vw, 110px);
     height: 1px;
-    margin: 1.25rem auto;
+    margin: 0.85rem auto;
     background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-  }
-
-  .hero-date {
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    color: #fff;
-    margin: 0.5rem 0 1.5rem;
   }
 
   .hero-quote {
     font-family: var(--font-script);
     color: #ffd9c0;
-    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
     margin: 0;
   }
 
-.hero-scroll {
+.hero-play {
     position: absolute;
     bottom: 1.5rem;
-    width: 42px;
-    height: 42px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.5rem 1.4rem 0.5rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.82rem, 2.3vw, 0.98rem);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    animation: heroPlayFade 1.2s ease-out 0.6s both;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    z-index: 3;
+  }
+
+  .hero-play:hover {
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-play:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .hero-play-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    opacity: 0;
+    animation: heroPlayPulse 2.4s ease-out infinite;
+  }
+
+  .hero-play[aria-pressed='false'] .hero-play-pulse {
+    opacity: 1;
+  }
+
+  @keyframes heroPlayPulse {
+    0% { transform: scale(0.96); opacity: 0.7; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+
+  .hero-play-disc {
+    position: relative;
+    width: 36px;
+    height: 36px;
     display: grid;
     place-items: center;
     border-radius: 50%;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(6px);
-    animation: scrollBounce 2.4s ease-in-out infinite;
-    transition: background 0.2s ease, transform 0.2s ease;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    box-shadow: 0 4px 10px rgba(155, 31, 51, 0.5);
+    flex-shrink: 0;
   }
 
-  .hero-scroll:hover {
-    background: rgba(255, 255, 255, 0.22);
-    color: #fff;
-    transform: translateY(-2px);
+  .hero-play-icon {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
-  .hero-scroll svg {
-    width: 18px;
-    height: 18px;
-  }
+  .hero-play-icon--play { opacity: 1; transform: scale(1); }
+  .hero-play-icon--pause { opacity: 0; transform: scale(0.6); }
+
+  .hero-play[aria-pressed='true'] .hero-play-icon--play { opacity: 0; transform: scale(0.6); }
+  .hero-play[aria-pressed='true'] .hero-play-icon--pause { opacity: 1; transform: scale(1); }
 
   @keyframes heroZoom {
     to { transform: scale(1); }
@@ -215,8 +276,14 @@ import '@fontsource/allura';
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes scrollBounce {
-    0%, 100% { transform: translateY(0); opacity: 0.9; }
-    50% { transform: translateY(8px); opacity: 1; }
+  @keyframes heroPlayFade {
+    from { opacity: 0; transform: translateX(-50%) translateY(15px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-play-pulse {
+      animation: none;
+    }
   }
 </style>
