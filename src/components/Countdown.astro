@@ -4,14 +4,29 @@ import Divider from './Divider.astro';
 ---
 
 <section class="section" id="fecha">
-  <p class="section-eyebrow">Guarda esta fecha</p>
-  <h2 class="section-title">Nos vamos a casar</h2>
+  <p class="section-eyebrow">Tenemos el agrado de invitarte a</p>
+  <h2 class="section-title">Nuestra boda</h2>
   <Divider />
 
-  <p class="cd-quote">
-    Bendecidos por la gracia de Dios,<br />
-    nos uniremos en matrimonio el
-  </p>
+  <p class="cd-blessing">Con la bendición de Dios y nuestros padres</p>
+
+  <div class="cd-parents">
+    <div class="cd-parents-group">
+      <p class="cd-parents-label">Padres del Novio</p>
+      <p class="cd-parents-names">{wedding.parents.groom.join(' & ')}</p>
+    </div>
+
+    <div class="cd-parents-divider" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2c1 3 3 4 6 5-3 1-5 2-6 5-1-3-3-4-6-5 3-1 5-2 6-5z" />
+      </svg>
+    </div>
+
+    <div class="cd-parents-group">
+      <p class="cd-parents-label">Padres de la Novia</p>
+      <p class="cd-parents-names">{wedding.parents.bride.join(' & ')}</p>
+    </div>
+  </div>
 
   <p class="cd-date">{wedding.date.display}</p>
   <p class="cd-weekday">{wedding.date.weekday}</p>
@@ -66,10 +81,61 @@ import Divider from './Divider.astro';
     margin-bottom: 0.5rem;
   }
 
+  .cd-blessing {
+    font-family: var(--font-script);
+    color: var(--color-primary);
+    font-size: clamp(1.4rem, 3.2vw, 1.8rem);
+    font-weight: 400;
+    margin: 0 0 1.75rem;
+    line-height: 1.3;
+  }
+
+  .cd-parents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin: 0 auto 1.75rem;
+    padding: 0 1rem;
+    max-width: 640px;
+  }
+
+  .cd-parents-group {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .cd-parents-label {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-accent);
+    font-size: 0.72rem;
+    margin: 0 0 0.4rem;
+  }
+
+  .cd-parents-names {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .cd-parents-divider {
+    color: var(--color-primary);
+    opacity: 0.6;
+  }
+
+  .cd-parents-divider svg {
+    width: 16px;
+    height: 16px;
+  }
+
   .cd-date {
     font-family: var(--font-display);
     color: var(--color-primary-dark);
-    font-size: 1.4rem;
+    font-size: clamp(1.7rem, 4.2vw, 2.1rem);
     margin: 0.25rem 0;
     letter-spacing: 2px;
   }
@@ -78,7 +144,7 @@ import Divider from './Divider.astro';
     text-transform: uppercase;
     letter-spacing: 4px;
     color: var(--color-accent);
-    font-size: 0.78rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     margin: 0 0 1.5rem;
   }
 
@@ -114,5 +180,13 @@ import Divider from './Divider.astro';
     font-size: 0.65rem;
     letter-spacing: 2px;
     color: var(--color-muted);
+  }
+
+  @media (min-width: 640px) {
+    .cd-parents {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1.75rem;
+    }
   }
 </style>
