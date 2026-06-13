@@ -10,7 +10,7 @@ export const wedding = {
       name: 'Yesenia Rojas',
       photo: '/images/yesenia.webp',
       story:
-        'Llegaste a mi vida en el momento exacto en que menos lo esperaba, y desde entonces nada volvió a ser igual. Tu forma de mirar, tu calma y tu risa sincera me fueron conquistando poco a poco, hasta entender que en ti había encontrado a mi mejor amigo, mi compañero y el amor de mi vida. Gracias por elegirme cada día y por hacerme creer que los sueños, cuando se desean de verdad, sí se cumplen.',
+        'Llegaste a mi vida en el momento exacto cuando menos lo esperaba, y desde entonces nada volvió a ser igual. Tu forma de mirar, tu calma y tu risa sincera me fueron conquistando poco a poco, hasta entender que en ti había encontrado a mi mejor amigo, mi compañero y el amor de mi vida. Gracias por elegirme cada día y por hacerme creer que los sueños, cuando se desean de verdad, sí se cumplen.',
     },
     initials: 'A & Y',
   },
