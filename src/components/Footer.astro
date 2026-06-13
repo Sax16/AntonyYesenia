@@ -38,7 +38,12 @@ import { wedding } from '../data/wedding.ts';
       <span class="footer-credits-rule" aria-hidden="true"></span>
       <p class="footer-credits-text">
         © 2026 · Hecho con <span class="footer-heart" aria-hidden="true">♥</span> por
-        <strong class="footer-brand">Jsaxdev</strong>
+        <a
+          class="footer-brand"
+          href="https://github.com/Sax16"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Jsaxdev</a>
       </p>
     </div>
   </div>
@@ -133,5 +138,11 @@ import { wedding } from '../data/wedding.ts';
     font-weight: 600;
     letter-spacing: 2px;
     margin-left: 0.35rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-brand:hover {
+    color: var(--color-primary);
   }
 </style>
